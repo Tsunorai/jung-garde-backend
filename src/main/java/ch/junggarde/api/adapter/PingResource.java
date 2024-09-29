@@ -1,4 +1,4 @@
-package ch.junggarde.api;
+package ch.junggarde.api.adapter;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.GET;
