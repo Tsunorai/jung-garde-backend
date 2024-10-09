@@ -1,21 +1,26 @@
-package ch.junggarde.api.application.model.member;
+package ch.junggarde.api.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import lombok.experimental.FieldNameConstants;
 
 import java.util.UUID;
 
 @Accessors(chain = true)
 @Getter
 @Setter
+@FieldNameConstants
 @AllArgsConstructor
 @NoArgsConstructor
-public final class Member {
+public class Image {
     private UUID id;
-    private String firstname;
-    private String lastname;
-    private Instrument instrument;
+    private String format;
+    private String base64;
+
+    public UUID randomId() {
+        return UUID.randomUUID();
+    }
 }

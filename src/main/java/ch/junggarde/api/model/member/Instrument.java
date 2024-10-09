@@ -1,4 +1,4 @@
-package ch.junggarde.api.application.model.member;
+package ch.junggarde.api.model.member;
 
 public enum Instrument {
     TRUMPET,

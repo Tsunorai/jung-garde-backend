@@ -1,4 +1,4 @@
-package ch.junggarde.api.application.model.media;
+package ch.junggarde.api.model.media;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

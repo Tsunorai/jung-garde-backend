@@ -1,25 +1,25 @@
-package ch.junggarde.api.appointment;
+package ch.junggarde.api.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import lombok.experimental.FieldNameConstants;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.Year;
 import java.util.UUID;
 
 @Accessors(chain = true)
 @Getter
 @Setter
+@FieldNameConstants
 @AllArgsConstructor
 @NoArgsConstructor
-public class Appointment {
+public class GalleryImage {
     private UUID id;
-    private LocalDate date;
-    private LocalTime time;
-    private String location;
-    private String name;
-    private AppointmentType type;
+    private Image image;
+    private Year year;
+    private String event;
+    private UUID positionId;
 }

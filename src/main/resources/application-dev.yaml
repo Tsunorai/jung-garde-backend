@@ -1,4 +1,7 @@
 quarkus:
+  mongodb:
+    database: jung-garde
+    connection-string: mongodb://localhost:27017
   http:
     cors:
       ~: true

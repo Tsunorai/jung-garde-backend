@@ -1,4 +1,4 @@
-package ch.junggarde.api.application.model;
+package ch.junggarde.api.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Accessors(chain = true)
@@ -13,11 +15,11 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Image {
+public class Appointment {
     private UUID id;
-    private String base64;
-
-    public UUID randomId() {
-        return UUID.randomUUID();
-    }
+    private LocalDate date;
+    private LocalTime time;
+    private String location;
+    private String name;
+    private AppointmentType type;
 }

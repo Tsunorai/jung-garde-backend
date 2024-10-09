@@ -1,6 +1,5 @@
-package ch.junggarde.api.application.model.member;
+package ch.junggarde.api.model.member;
 
-import ch.junggarde.api.application.model.Image;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,11 +13,9 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdministrativeMember {
+public class Member {
     private UUID id;
-    private Member member;
-    private Role role;
-    private String description;
-    private Image image;
-    private Member supervisor;
+    private String firstname;
+    private String lastname;
+    private Instrument instrument;
 }
