@@ -1,7 +1,6 @@
 package ch.junggarde.api.adapter.out.codec;
 
 import ch.junggarde.api.model.GalleryImage;
-import ch.junggarde.api.model.Image;
 import com.mongodb.MongoClientSettings;
 import org.bson.BsonReader;
 import org.bson.BsonString;
@@ -29,7 +28,7 @@ public class GalleryImageCodec implements CollectibleCodec<GalleryImage> {
 
         return new GalleryImage(
                 UUID.fromString(document.getString(GalleryImage.Fields.id)),
-                new Image().setId(UUID.fromString(document.getString("imageId"))),
+                UUID.fromString(document.getString("imageId")),
                 Year.parse(document.getString(GalleryImage.Fields.year)),
                 document.getString(GalleryImage.Fields.event),
                 UUID.fromString(document.getString(GalleryImage.Fields.positionId))
@@ -40,7 +39,7 @@ public class GalleryImageCodec implements CollectibleCodec<GalleryImage> {
     public void encode(BsonWriter bsonWriter, GalleryImage galleryImage, EncoderContext encoderContext) {
         final Document document = new Document()
                 .append(GalleryImage.Fields.id, galleryImage.getId())
-                .append("imageId", galleryImage.getImage().getId().toString())
+                .append("imageId", galleryImage.getImageId().toString())
                 .append(GalleryImage.Fields.year, galleryImage.getYear())
                 .append(GalleryImage.Fields.event, galleryImage.getEvent())
                 .append(GalleryImage.Fields.positionId, galleryImage.getPositionId());
