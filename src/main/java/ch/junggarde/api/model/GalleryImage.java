@@ -18,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class GalleryImage {
     private UUID id;
-    private Image image;
+    private UUID imageId;
     private Year year;
     private String event;
     private UUID positionId;

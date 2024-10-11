@@ -1,6 +1,7 @@
 package ch.junggarde.api.adapter.in;
 
-import ch.junggarde.api.application.GalleryService;
+
+import ch.junggarde.api.application.AppointmentService;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -10,16 +11,16 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/gallery")
+@Path("/appointments")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @RequestScoped
-public class GalleryResource {
+public class AppointmentResource {
     @Inject
-    GalleryService galleryService;
+    AppointmentService appointMentService;
 
     @GET
-    public Response getGallery() {
-        return Response.ok().entity(this.galleryService.getGallery()).build();
+    public Response getAppointments() {
+        return Response.ok().entity(appointMentService.getAppointments()).build();
     }
 }
