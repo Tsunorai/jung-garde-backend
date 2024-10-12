@@ -7,9 +7,7 @@ import ch.junggarde.api.model.Image;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @ApplicationScoped
 public class GalleryService {
@@ -29,18 +27,15 @@ public class GalleryService {
 
         List<Image> images = imageService.getGalleryImages(imageIds);
 
-        List<GalleryImageDTO> response = new ArrayList<>(galleryImages.size());
-        // Create DTOs
-        galleryImages.forEach(galleryImage -> {
-                    UUID imageId = galleryImage.getImageId();
-                    for (Image image : images) {
-                        if (image.getId().equals(imageId)) {
-                            response.add(GalleryImageDTO.fromDomainModel(galleryImage, image));
-                            break;
-                        }
-                    }
-                }
-        );
-        return response;
+        // Add image to gallery image and map to dto
+        return galleryImages.stream()
+                .map(galleryImage -> GalleryImageDTO.fromDomainModel(
+                                galleryImage,
+                                images.stream()
+                                        .filter(image -> image.getId().equals(galleryImage.getId()))
+                                        .findFirst()
+                                        .orElseThrow(RuntimeException::new) // todo create custom exception
+                        )
+                ).toList();
     }
 }

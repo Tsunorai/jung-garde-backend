@@ -26,6 +26,6 @@ public class MemberResource {
     @Path("/administrative")
     @GET
     public Response getAdministrative() {
-        return Response.ok().entity("Administrative").build();
+        return Response.ok().entity(memberService.getAdministrativeMembers()).build();
     }
 }

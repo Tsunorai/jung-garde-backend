@@ -37,7 +37,13 @@ public class AppointmentCodec implements CollectibleCodec<Appointment> {
 
     @Override
     public void encode(BsonWriter bsonWriter, Appointment appointment, EncoderContext encoderContext) {
-
+        final Document document = new Document()
+                .append(Appointment.Fields.id, appointment.getId().toString())
+                .append(Appointment.Fields.date, appointment.getDate().toString())
+                .append(Appointment.Fields.location, appointment.getLocation())
+                .append(Appointment.Fields.name, appointment.getName())
+                .append(Appointment.Fields.type, appointment.getType().toString());
+        documentCodec.encode(bsonWriter, document, encoderContext);
     }
 
     @Override

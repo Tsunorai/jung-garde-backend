@@ -13,6 +13,6 @@ public class ImageService {  // Todo check if needed
     ImageRepository imageRepository;
 
     public List<Image> getGalleryImages(List<String> imageIds) {
-        return imageRepository.getGalleryImages(imageIds);
+        return imageRepository.findImagesByIds(imageIds);
     }
 }

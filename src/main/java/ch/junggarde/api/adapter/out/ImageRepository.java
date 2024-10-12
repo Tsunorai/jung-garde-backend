@@ -25,12 +25,11 @@ public class ImageRepository {
         collection().insertOne(image);
     }
 
-    public List<Image> getGalleryImages(List<String> imageIds) {
+    public List<Image> findImagesByIds(List<String> imageIds) {
         return collection().find(Filters.in(Image.Fields.id, imageIds)).into(new ArrayList<>());
     }
 
     private MongoCollection<Image> collection() {
         return mongoClient.get().getDatabase(database).getCollection(COLLECTION, Image.class);
     }
-
 }
