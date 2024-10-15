@@ -1,15 +1,15 @@
 package ch.junggarde.api.application;
 
 import ch.junggarde.api.adapter.out.GalleryImageRepository;
+import ch.junggarde.api.adapter.out.ImageRepository;
 import ch.junggarde.api.application.dto.GalleryImageDTO;
 import ch.junggarde.api.model.GalleryImage;
 import ch.junggarde.api.model.Image;
+import ch.junggarde.api.model.ImageNotFound;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @ApplicationScoped
 public class GalleryService {
@@ -17,9 +17,9 @@ public class GalleryService {
     GalleryImageRepository galleryImageRepository;
 
     @Inject
-    ImageService imageService;
+    ImageRepository imageRepository;
 
-    public List<GalleryImageDTO> getGallery() {
+    public List<GalleryImageDTO> getGallery() throws ImageNotFound {
         List<GalleryImage> galleryImages = galleryImageRepository.getGallery();
 
         // Get all imageIds of the gallery images
@@ -27,20 +27,17 @@ public class GalleryService {
                 .map(galleryImage -> galleryImage.getImageId().toString())
                 .toList();
 
-        List<Image> images = imageService.getGalleryImages(imageIds);
+        List<Image> images = imageRepository.findImagesByIds(imageIds);
 
-        List<GalleryImageDTO> response = new ArrayList<>(galleryImages.size());
-        // Create DTOs
-        galleryImages.forEach(galleryImage -> {
-                    UUID imageId = galleryImage.getImageId();
-                    for (Image image : images) {
-                        if (image.getId().equals(imageId)) {
-                            response.add(GalleryImageDTO.fromDomainModel(galleryImage, image));
-                            break;
-                        }
-                    }
-                }
-        );
-        return response;
+        // Add image to gallery image and map to dto
+        return galleryImages.stream()
+                .map(galleryImage -> GalleryImageDTO.fromDomainModel(
+                                galleryImage,
+                                images.stream()
+                                        .filter(image -> image.getId().equals(galleryImage.getId()))
+                                        .findFirst()
+                                        .orElseThrow(() -> new ImageNotFound(galleryImage.getId()))
+                        )
+                ).toList();
     }
 }

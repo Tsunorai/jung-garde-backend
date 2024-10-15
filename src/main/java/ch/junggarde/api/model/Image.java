@@ -20,7 +20,4 @@ public class Image {
     private String format;
     private String base64;
 
-    public UUID randomId() {
-        return UUID.randomUUID();
-    }
 }
