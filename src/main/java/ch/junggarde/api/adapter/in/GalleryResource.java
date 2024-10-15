@@ -1,6 +1,7 @@
 package ch.junggarde.api.adapter.in;
 
 import ch.junggarde.api.application.GalleryService;
+import ch.junggarde.api.model.ImageNotFound;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -20,6 +21,10 @@ public class GalleryResource {
 
     @GET
     public Response getGallery() {
-        return Response.ok().entity(this.galleryService.getGallery()).build();
+        try {
+            return Response.ok().entity(this.galleryService.getGallery()).build();
+        } catch (ImageNotFound e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

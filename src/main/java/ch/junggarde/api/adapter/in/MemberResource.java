@@ -1,6 +1,7 @@
 package ch.junggarde.api.adapter.in;
 
 import ch.junggarde.api.application.MemberService;
+import ch.junggarde.api.model.member.MemberNotFound;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -26,6 +27,10 @@ public class MemberResource {
     @Path("/administrative")
     @GET
     public Response getAdministrative() {
-        return Response.ok().entity(memberService.getAdministrativeMembers()).build();
+        try {
+            return Response.ok().entity(memberService.getAdministrativeMembers()).build();
+        } catch (MemberNotFound e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

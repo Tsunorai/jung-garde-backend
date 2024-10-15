@@ -1,9 +1,11 @@
 package ch.junggarde.api.application;
 
 import ch.junggarde.api.adapter.out.GalleryImageRepository;
+import ch.junggarde.api.adapter.out.ImageRepository;
 import ch.junggarde.api.application.dto.GalleryImageDTO;
 import ch.junggarde.api.model.GalleryImage;
 import ch.junggarde.api.model.Image;
+import ch.junggarde.api.model.ImageNotFound;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -15,9 +17,9 @@ public class GalleryService {
     GalleryImageRepository galleryImageRepository;
 
     @Inject
-    ImageService imageService;
+    ImageRepository imageRepository;
 
-    public List<GalleryImageDTO> getGallery() {
+    public List<GalleryImageDTO> getGallery() throws ImageNotFound {
         List<GalleryImage> galleryImages = galleryImageRepository.getGallery();
 
         // Get all imageIds of the gallery images
@@ -25,7 +27,7 @@ public class GalleryService {
                 .map(galleryImage -> galleryImage.getImageId().toString())
                 .toList();
 
-        List<Image> images = imageService.getGalleryImages(imageIds);
+        List<Image> images = imageRepository.findImagesByIds(imageIds);
 
         // Add image to gallery image and map to dto
         return galleryImages.stream()
@@ -34,7 +36,7 @@ public class GalleryService {
                                 images.stream()
                                         .filter(image -> image.getId().equals(galleryImage.getId()))
                                         .findFirst()
-                                        .orElseThrow(RuntimeException::new) // todo create custom exception
+                                        .orElseThrow(() -> new ImageNotFound(galleryImage.getId()))
                         )
                 ).toList();
     }

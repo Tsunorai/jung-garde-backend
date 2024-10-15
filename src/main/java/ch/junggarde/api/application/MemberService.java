@@ -8,6 +8,7 @@ import ch.junggarde.api.application.dto.MemberDTO;
 import ch.junggarde.api.model.Image;
 import ch.junggarde.api.model.member.AdministrativeMember;
 import ch.junggarde.api.model.member.Member;
+import ch.junggarde.api.model.member.MemberNotFound;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -28,7 +29,7 @@ public class MemberService {
         return memberRepository.findAll().stream().map(MemberDTO::fromDomainModel).toList();
     }
 
-    public List<AdministrativeMemberDTO> getAdministrativeMembers() {
+    public List<AdministrativeMemberDTO> getAdministrativeMembers() throws MemberNotFound {
         List<AdministrativeMember> administrativeMembers = administrativeMemberRepository.findAll();
 
         // Get all memberIds of the administrative members
@@ -51,7 +52,7 @@ public class MemberService {
                                 members.stream()
                                         .filter(member -> member.getId().equals(administrativeMember.getId()))
                                         .findFirst()
-                                        .orElseThrow(RuntimeException::new), // todo add custom exception
+                                        .orElseThrow(() -> new MemberNotFound(administrativeMember.getId())),
                                 images.stream()
                                         .filter(image -> image.getId().equals(administrativeMember.getImageId()))
                                         .findFirst()
