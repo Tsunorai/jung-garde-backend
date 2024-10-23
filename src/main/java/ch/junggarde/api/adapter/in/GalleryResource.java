@@ -20,9 +20,14 @@ public class GalleryResource {
     GalleryService galleryService;
 
     @GET
-    public Response getGallery() {
+    @Path("/{year}/{event}/{page}")
+    public Response getGallery(
+            @PathParam("year") int year,
+            @PathParam("event") String event,
+            @PathParam("page") int page
+    ) {
         try {
-            return Response.ok().entity(this.galleryService.getGallery()).build();
+            return Response.ok().entity(this.galleryService.getGallery(year, event, page)).build();
         } catch (ImageNotFound e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }

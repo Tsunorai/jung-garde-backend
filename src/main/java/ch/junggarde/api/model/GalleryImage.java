@@ -7,7 +7,6 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldNameConstants;
 
-import java.time.Year;
 import java.util.UUID;
 
 @Accessors(chain = true)
@@ -19,11 +18,11 @@ import java.util.UUID;
 public class GalleryImage {
     private UUID id;
     private UUID imageId;
-    private Year year;
+    private int year;
     private String event;
     private UUID positionId;
 
-    public GalleryImage(UUID imageId, Year year, String event, UUID positionId) {
+    public GalleryImage(UUID imageId, int year, String event, UUID positionId) {
         this.id = UUID.randomUUID();
         this.imageId = imageId;
         this.year = year;

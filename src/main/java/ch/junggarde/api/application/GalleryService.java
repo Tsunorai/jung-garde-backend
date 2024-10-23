@@ -9,7 +9,6 @@ import ch.junggarde.api.model.ImageNotFound;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -22,8 +21,8 @@ public class GalleryService {
     @Inject
     ImageRepository imageRepository;
 
-    public List<GalleryImageDTO> getGallery() throws ImageNotFound {
-        List<GalleryImage> galleryImages = galleryImageRepository.getGallery();
+    public List<GalleryImageDTO> getGallery(int year, String event, int page) throws ImageNotFound {
+        List<GalleryImage> galleryImages = galleryImageRepository.getGallery(year, event, page);
 
         // Get all imageIds of the gallery images
         List<String> imageIds = galleryImages.stream()
@@ -53,7 +52,7 @@ public class GalleryService {
             Image image = new Image(galleryImageDTO.format(), galleryImageDTO.base64());
             GalleryImage galleryImage = new GalleryImage(
                     image.getId(),
-                    Year.parse(galleryImageDTO.year()),
+                    galleryImageDTO.year(),
                     galleryImageDTO.event(),
                     UUID.fromString(galleryImageDTO.positionId())
             );

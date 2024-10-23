@@ -7,7 +7,7 @@ public record GalleryImageDTO(
         String id,
         String format,
         String base64,
-        String year,
+        int year,
         String event,
         String positionId
 ) {
@@ -16,7 +16,7 @@ public record GalleryImageDTO(
                 galleryImage.getId().toString(),
                 image.getFormat(),
                 image.getBase64(),
-                galleryImage.getYear().toString(),
+                galleryImage.getYear(),
                 galleryImage.getEvent(),
                 galleryImage.getPositionId().toString()
         );
