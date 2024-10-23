@@ -21,15 +21,15 @@ public class ImageRepository {
     @ConfigProperty(name = "quarkus.mongodb.database")
     String database;
 
-    public void save(Image image) {
-        collection().insertOne(image);
-    }
-
     public List<Image> findImagesByIds(List<String> imageIds) {
         return collection().find(Filters.in(Image.Fields.id, imageIds)).into(new ArrayList<>());
     }
 
     private MongoCollection<Image> collection() {
         return mongoClient.get().getDatabase(database).getCollection(COLLECTION, Image.class);
+    }
+
+    public void saveImages(List<Image> images) {
+        collection().insertMany(images);
     }
 }

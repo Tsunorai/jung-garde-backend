@@ -22,4 +22,12 @@ public class GalleryImage {
     private Year year;
     private String event;
     private UUID positionId;
+
+    public GalleryImage(UUID imageId, Year year, String event, UUID positionId) {
+        this.id = UUID.randomUUID();
+        this.imageId = imageId;
+        this.year = year;
+        this.event = event;
+        this.positionId = positionId;
+    }
 }
